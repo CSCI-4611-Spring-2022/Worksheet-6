@@ -24,56 +24,27 @@ Create a top-down diagram of the scene including the sky sphere, the camera, the
 
 ## Q2: Mouse-Sky Intersections (Part 2): 
 
-Now, let's create the building blocks for the method `Sky::ScreenPtHitsSky()`, which tests to see where the ray from the eye through the mouse intersects the sky sphere! We're given the following information in this method:
+Now, let's create the building blocks for the mouse-sky intersection code in the `onMouseDown` method of the `DrawingApp` class, which tests to see where the ray from the eye through the mouse intersects the sky sphere. We already have the following variables defined:
 
-- Camera view matrix (`Matrix4 view_matrix`)
-- Camera projection matrix (`Matrix4 proj_matrix`)
-- `Point2` normalized device coordinates of mouse (`Point2 normalized_screen_pt`)
+- The synthetic camera (`this.camera`)
+- The normalized device coordinates of the mouse (`deviceCoords`)
+  - Type `THREE.Vector2`
   - Inclusive range [-1, 1]
-  - `Point2(-1, 1)` is the upper left corner, and `Point2(1, -1)` is the
-    lower right
+  - (-1, 1) is the upper left corner, and (1, -1) is the lower right
 
-1. The info above actually gives us all we need to calculate the camera's position (also known as the eye position) in world space, but it may not be obvious at first how to do this.  See if you can figure it out with a few hints below.
+- A `THREE.Raycaster` configured using the above two variables.
+- The 3D mesh for the sky sphere (`this.skySphere`)
 
-```
-/* Hint 1: The view matrix transforms from one space to another, what are those spaces?
-   Hint 2: It is possible to calculate the inverse of a transformation matrix, and Matrix4 has a handy routine for this.  As you would expect, the inverse of a transformation matrix will apply the opposite transformation.
- */
-Point3 eye = /* --- Fill in your answer here --- */
-```
+This gives us all we need to create a pick ray that projects the mouse position to the sky!  Take a look at the code blocks for the billboard and ground intersections in the `onMouseDown` method, and try to construct a similar intersection test for the sky sphere, and then create a new `Billboard` at the intersection point.
 
-2. Construct the mouse pointer location in world space. We consider the mouse to be on the near clipping plane of the camera (this should sound familiar from your drawing in Q1!). In order to grab this point, MinGfx has a handy helper function called [`GfxMath::ScreenToNearPlane`](https://ivlab.github.io/MinGfx/classmingfx_1_1_gfx_math.html#a2086a2f885f887fb53da8a5adb5860f0).
-   Use the MinGfx documentation at the link and the variables given above to construct the world-space representation of the mouse location:
-
-```
-Point3 mouseIn3d = /* --- Fill in your answer here --- */
+```typescript
+// Add your intersection test here
 ```
 
-3. Create the ray from the eye through the world-space mouse location on the near plane. Use MinGfx's builtin `Ray` class for this.
+Next, write the code that will create a new `Billboard` object at the intersection point. Note that the intersection test should *always* return a result as long as we are inside the sphere.  (In other words, an if statement is not strictly required, unless we expect the user to walk half a kilometer and "escape" from the sky sphere.)
 
-```
-Ray eyeThroughMouse = /* --- Fill in your answer here --- */
-```
-
-4. Use the [`Ray::IntersectSphere()`](https://ivlab.github.io/MinGfx/classmingfx_1_1_ray.html#affe83ef9859560bcb24343017cb86d88) method to find the intersection point of the `eyeThroughMouse` ray and the sky sphere. This method contains one bit of C++ syntax that you may not have seen before - output parameters. The `Ray::IntersectSphere()` method sets both `iTime` and `iPoint` this way. Usually, best practice here is to declare a variable of the correct type before you call the method, then pass in a *reference* to this variable. For example:
-
-```
-// Declare output parameter `x`
-float x;
-
-// Call someFunction with output parameter
-someFunction(&x);
-
-// x now has the value set by someFunction
-```
-
-   Using the variables declared from the previous steps, write a code snippet that captures the return value of the sphere intersection test, as well as
-   the `t` value and the `point` where the ray intersects the sphere.
-
-```
-// Declare output parameters
-
-bool intersects = eyeThroughMouse.IntersectSphere(/* --- Fill parameters in --- */)
+```typescript
+// Add your billboard creation code here
 ```
 
 
