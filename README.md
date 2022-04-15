@@ -1,6 +1,6 @@
 # Worksheet 6 - A World Made of Drawings
 
-**Due: Thursday, April 21, 11:59pm CDT**
+**Due: Friday, April 22, 11:59pm CDT**
 
 For the worksheets in this course, we will provide a Markdown template in a repository that will be created for you through GitHub classroom.  You can clone this repository, directly edit your local copy with your answers, and then commit and push the file to complete the submission.  Alternatively, you can use GitHub's built-in Markdown editor and edit directly on your repository website without having to clone it locally. 
 
